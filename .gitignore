@@ -1,4 +1,4 @@
 node_modules/
-temp_extract/node_modules/
+dist/
 *.zip
 .env
