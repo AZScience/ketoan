@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Google AI Studio App</title>
+    <script>
+      // Safeguard against libraries trying to overwrite window.fetch
+      if (window.fetch) {
+        const originalFetch = window.fetch;
+        try {
+          Object.defineProperty(window, 'fetch', {
+            configurable: false,
+            enumerable: true,
+            get: () => originalFetch,
+            set: (v) => {
+              console.warn('Attempted to overwrite window.fetch. Using native fetch instead.');
+            }
+          });
+        } catch (e) {
+          console.log('Native fetch is already protected or non-configurable.');
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

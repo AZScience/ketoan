@@ -1,0 +1,33 @@
+Để đưa ứng dụng này lên GitHub, bạn có hai cách chính: cách nhanh nhất thông qua tính năng có sẵn của Google AI Studio và cách thủ công nếu bạn đã tải mã nguồn về máy.
+Cách 1: Sử dụng tính năng Export có sẵn (Khuyên dùng)
+Đây là cách dễ nhất vì Google AI Studio đã tích hợp sẵn công cụ kết nối với GitHub:
+Tại giao diện Google AI Studio Build, nhìn lên thanh công cụ phía trên hoặc menu cài đặt (biểu tượng bánh răng).
+Tìm tùy chọn "Export" hoặc "Download/Export".
+Chọn "Export to GitHub".
+Hệ thống sẽ yêu cầu bạn kết nối với tài khoản GitHub của mình.
+Sau khi kết nối, bạn có thể chọn tạo một Repository mới và đẩy toàn bộ mã nguồn lên đó chỉ với vài cú nhấp chuột.
+Cách 2: Đưa lên thủ công từ máy tính
+Nếu bạn đã tải mã nguồn về dưới dạng file ZIP, hãy làm theo các bước sau:
+Giải nén file ZIP vào một thư mục trên máy tính.
+Tạo một Repository mới trên GitHub (truy cập github.com/new).
+Mở terminal (hoặc Command Prompt) tại thư mục ứng dụng và chạy các lệnh sau:
+code
+Bash
+# Khởi tạo git
+git init
+
+# Thêm tất cả các file vào khu vực chờ (staging)
+git add .
+
+# Commit lần đầu tiên
+git commit -m "Initial commit: Ứng dụng kế toán doanh nghiệp"
+
+# Kết nối với repository trên GitHub (thay URL bằng link của bạn)
+git branch -M main
+git remote add origin https://github.com/ten-nguoi-dung/ten-kho-luu-tru.git
+
+# Đẩy mã nguồn lên GitHub
+git push -u origin main
+Một số lưu ý quan trọng:
+File .env: Đừng bao giờ đẩy file .env chứa các mã khóa bí mật (API Keys) lên GitHub công khai. Ứng dụng này đã có sẵn file .gitignore để ngăn chặn việc này.
+Firebase: Nếu bạn đã thiết lập Firebase, hãy đảm bảo bạn đã lưu lại các thông tin cấu hình trong firebase-applet-config.json để ứng dụng có thể chạy được ở môi trường mới.

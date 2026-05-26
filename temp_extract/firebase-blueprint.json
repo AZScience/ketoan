@@ -1,0 +1,334 @@
+{
+  "entities": {
+    "Account": {
+      "title": "Account",
+      "description": "Tài khoản kế toán theo Thông tư 107/2017/TT-BTC",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string", "description": "Số hiệu tài khoản" },
+        "name": { "type": "string", "description": "Tên tài khoản" },
+        "type": { "type": "string", "enum": ["Asset", "Liability", "Equity", "Revenue", "Expense"], "description": "Loại tài khoản" },
+        "parentCode": { "type": "string", "description": "Tài khoản cấp trên" },
+        "level": { "type": "integer", "description": "Cấp tài khoản" }
+      },
+      "required": ["code", "name", "type"]
+    },
+    "Voucher": {
+      "title": "Voucher",
+      "description": "Chứng từ kế toán",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "format": "date-time", "description": "Ngày hạch toán" },
+        "number": { "type": "string", "description": "Số chứng từ" },
+        "description": { "type": "string", "description": "Diễn giải" },
+        "type": { "type": "string", "enum": ["Receipt", "Payment", "Sales", "Purchase", "General"], "description": "Loại chứng từ" },
+        "totalAmount": { "type": "number", "description": "Tổng tiền" },
+        "createdBy": { "type": "string", "description": "Người lập" },
+        "status": { 
+          "type": "string", 
+          "enum": ["PendingApproval", "Approved", "Rejected", "Posted"], 
+          "description": "Trạng thái chứng từ" 
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "debitAccount": { "type": "string", "description": "Tài khoản Nợ" },
+              "creditAccount": { "type": "string", "description": "Tài khoản Có" },
+              "amount": { "type": "number", "description": "Số tiền" },
+              "note": { "type": "string", "description": "Ghi chú" },
+              "itemCode": { "type": "string", "description": "Mã hàng" },
+              "itemName": { "type": "string", "description": "Tên hàng" },
+              "unit": { "type": "string", "description": "Đơn vị tính" },
+              "quantityActual": { "type": "number", "description": "Số lượng thực tế" },
+              "price": { "type": "number", "description": "Đơn giá" }
+            }
+          }
+        }
+      },
+      "required": ["date", "number", "type", "items"]
+    },
+    "Company": {
+      "title": "Unit",
+      "description": "Thông tin đơn vị hành chính sự nghiệp",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Tên đơn vị" },
+        "taxCode": { "type": "string", "description": "Mã số thuế" },
+        "address": { "type": "string", "description": "Địa chỉ" },
+        "phone": { "type": "string", "description": "Số điện thoại" },
+        "email": { "type": "string", "description": "Email" },
+        "website": { "type": "string", "description": "Website" },
+        "director": { "type": "string", "description": "Thủ trưởng đơn vị" },
+        "chiefAccountant": { "type": "string", "description": "Kế toán trưởng" },
+        "field": { "type": "string", "description": "Lĩnh vực hoạt động" }
+      },
+      "required": ["name", "taxCode"]
+    },
+    "Employee": {
+      "title": "Employee",
+      "description": "Danh mục nhân viên",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string", "description": "Mã nhân viên" },
+        "name": { "type": "string", "description": "Họ tên" },
+        "position": { "type": "string", "description": "Chức vụ" },
+        "department": { "type": "string", "description": "Phòng ban" },
+        "phone": { "type": "string", "description": "Số điện thoại" },
+        "email": { "type": "string", "description": "Email" },
+        "address": { "type": "string", "description": "Địa chỉ" }
+      },
+      "required": ["code", "name"]
+    },
+    "Partner": {
+      "title": "Partner",
+      "description": "Danh mục khách hàng và nhà cung cấp",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string", "description": "Mã đối tác" },
+        "name": { "type": "string", "description": "Tên đối tác" },
+        "taxId": { "type": "string", "description": "Mã số thuế" },
+        "address": { "type": "string", "description": "Địa chỉ" },
+        "phone": { "type": "string", "description": "Số điện thoại" },
+        "email": { "type": "string", "description": "Email" },
+        "type": { "type": "string", "enum": ["Customer", "Supplier", "Both"], "description": "Loại đối tác" },
+        "contactPerson": { "type": "string", "description": "Người liên hệ" }
+      },
+      "required": ["code", "name", "type"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Danh mục vật tư, hàng hóa, dịch vụ",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string", "description": "Mã hàng" },
+        "name": { "type": "string", "description": "Tên hàng" },
+        "unit": { "type": "string", "description": "Đơn vị tính" },
+        "type": { "type": "string", "enum": ["Goods", "Service", "Material", "Product"], "description": "Loại" },
+        "purchasePrice": { "type": "number", "description": "Giá mua" },
+        "salePrice": { "type": "number", "description": "Giá bán" },
+        "inventoryAccount": { "type": "string", "description": "Tài khoản kho" },
+        "openingQty": { "type": "number", "description": "Số lượng tồn đầu kỳ" },
+        "openingValue": { "type": "number", "description": "Giá trị tồn đầu kỳ" },
+        "description": { "type": "string", "description": "Mô tả chi tiết" }
+      },
+      "required": ["code", "name", "unit", "type"]
+    },
+    "User": {
+      "title": "User",
+      "description": "Thông tin người dùng và cấu hình cá nhân",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "description": "Email người dùng" },
+        "displayName": { "type": "string", "description": "Tên hiển thị" },
+        "role": { "type": "string", "enum": ["admin", "accountant", "viewer"], "description": "Vai trò hệ thống" },
+        "workingYear": { "type": "integer", "description": "Năm làm việc hiện tại" },
+        "lastUpdated": { "type": "string", "format": "date-time", "description": "Thời gian cập nhật cuối" }
+      },
+      "required": ["email", "workingYear"]
+    },
+    "Department": {
+      "title": "Department",
+      "description": "Phòng ban hoặc Trung tâm chi phí",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string", "description": "Mã phòng ban" },
+        "name": { "type": "string", "description": "Tên phòng ban" },
+        "manager": { "type": "string", "description": "Trưởng phòng" },
+        "description": { "type": "string", "description": "Mô tả" }
+      },
+      "required": ["code", "name"]
+    },
+    "Warehouse": {
+      "title": "Warehouse",
+      "description": "Kho bãi lưu trữ vật tư hàng hóa",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string", "description": "Mã kho" },
+        "name": { "type": "string", "description": "Tên kho" },
+        "address": { "type": "string", "description": "Địa chỉ kho" },
+        "manager": { "type": "string", "description": "Thủ kho" }
+      },
+      "required": ["code", "name"]
+    },
+    "FixedAsset": {
+      "title": "Fixed Asset",
+      "description": "Tài sản cố định",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string", "description": "Mã tài sản" },
+        "name": { "type": "string", "description": "Tên tài sản" },
+        "type": { "type": "string", "description": "Loại tài sản (Máy móc, Nhà cửa...)" },
+        "purchaseDate": { "type": "string", "format": "date", "description": "Ngày mua" },
+        "originalCost": { "type": "number", "description": "Nguyên giá" },
+        "usefulLife": { "type": "integer", "description": "Thời gian sử dụng (tháng)" },
+        "depreciationMethod": { "type": "string", "description": "Phương pháp khấu hao" },
+        "accumulatedDepreciation": { "type": "number", "description": "Khấu hao lũy kế" },
+        "currentValue": { "type": "number", "description": "Giá trị còn lại" },
+        "departmentCode": { "type": "string", "description": "Phòng ban sử dụng" }
+      },
+      "required": ["code", "name", "originalCost"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "Dự án hoặc Hợp đồng kinh tế",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string", "description": "Mã dự án" },
+        "name": { "type": "string", "description": "Tên dự án" },
+        "startDate": { "type": "string", "format": "date", "description": "Ngày bắt đầu" },
+        "endDate": { "type": "string", "format": "date", "description": "Ngày kết thúc dự kiến" },
+        "status": { "type": "string", "enum": ["Active", "Completed", "OnHold"], "description": "Trạng thái" },
+        "budget": { "type": "number", "description": "Ngân sách dự kiến" }
+      },
+      "required": ["code", "name"]
+    },
+    "AccountingPeriod": {
+      "title": "Accounting Period",
+      "description": "Kỳ kế toán (Tháng/Năm)",
+      "type": "object",
+      "properties": {
+        "year": { "type": "integer", "description": "Năm tài chính" },
+        "month": { "type": "integer", "description": "Tháng (1-12)" },
+        "isClosed": { "type": "boolean", "description": "Đã khóa sổ chưa" },
+        "closedBy": { "type": "string", "description": "Người khóa sổ" },
+        "closedAt": { "type": "string", "format": "date-time", "description": "Thời gian khóa sổ" }
+      },
+      "required": ["year", "month", "isClosed"]
+    },
+    "AuditLog": {
+      "title": "Audit Log",
+      "description": "Nhật ký hệ thống",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "ID người thực hiện" },
+        "action": { "type": "string", "description": "Hành động (Create, Update, Delete...)" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "Thời gian thực hiện" },
+        "collection": { "type": "string", "description": "Bảng bị tác động" },
+        "docId": { "type": "string", "description": "ID bản ghi bị tác động" },
+        "details": { "type": "string", "description": "Chi tiết thay đổi" }
+      },
+      "required": ["userId", "action", "timestamp"]
+    },
+    "FixedAsset": {
+      "title": "Fixed Asset",
+      "description": "Tài sản cố định",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string", "description": "Mã tài sản" },
+        "name": { "type": "string", "description": "Tên tài sản" },
+        "unit": { "type": "string", "description": "Đơn vị tính" },
+        "type": { "type": "string", "description": "Loại tài sản" },
+        "department": { "type": "string", "description": "Bộ phận sử dụng" },
+        "purchaseDate": { "type": "string", "format": "date", "description": "Ngày mua" },
+        "originalCost": { "type": "number", "description": "Nguyên giá" },
+        "depreciationMethod": { "type": "string", "enum": ["StraightLine", "DecliningBalance"], "description": "Phương pháp khấu hao" },
+        "usefulLife": { "type": "integer", "description": "Thời gian sử dụng (tháng)" },
+        "accumulatedDepreciation": { "type": "number", "description": "Khấu hao lũy kế" },
+        "residualValue": { "type": "number", "description": "Giá trị còn lại" },
+        "assetAccount": { "type": "string", "description": "Tài khoản tài sản" },
+        "depreciationAccount": { "type": "string", "description": "Tài khoản khấu hao" },
+        "expenseAccount": { "type": "string", "description": "Tài khoản chi phí" },
+        "createdBy": { "type": "string", "description": "UID người tạo" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Thời gian tạo" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Thời gian cập nhật" }
+      },
+      "required": ["code", "name", "type", "originalCost", "usefulLife"]
+    },
+    "LoginLog": {
+      "title": "Login Log",
+      "description": "Nhật ký đăng nhập hệ thống",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "ID người dùng" },
+        "email": { "type": "string", "description": "Email người dùng" },
+        "displayName": { "type": "string", "description": "Tên hiển thị" },
+        "workingMonth": { "type": "integer", "description": "Tháng làm việc chọn lúc đăng nhập" },
+        "workingYear": { "type": "integer", "description": "Năm làm việc chọn lúc đăng nhập" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "Thời gian đăng nhập" },
+        "ipAddress": { "type": "string", "description": "Địa chỉ IP (nếu có)" },
+        "userAgent": { "type": "string", "description": "Thông tin trình duyệt" }
+      },
+      "required": ["userId", "email", "timestamp"]
+    },
+    "OpeningBalance": {
+      "title": "Opening Balance",
+      "description": "Số dư đầu kỳ của tài khoản",
+      "type": "object",
+      "properties": {
+        "accountCode": { "type": "string", "description": "Mã tài khoản" },
+        "debit": { "type": "number", "description": "Số dư Nợ" },
+        "credit": { "type": "number", "description": "Số dư Có" },
+        "year": { "type": "integer", "description": "Năm tài chính" }
+      },
+      "required": ["accountCode", "debit", "credit", "year"]
+    }
+  },
+  "firestore": {
+    "/accounts/{accountId}": {
+      "schema": "Account",
+      "description": "Danh mục hệ thống tài khoản"
+    },
+    "/opening_balances/{balanceId}": {
+      "schema": "OpeningBalance",
+      "description": "Số dư đầu kỳ các tài khoản"
+    },
+    "/fixed_assets/{assetId}": {
+      "schema": "FixedAsset",
+      "description": "Danh mục tài sản cố định"
+    },
+    "/vouchers/{voucherId}": {
+      "schema": "Voucher",
+      "description": "Danh sách chứng từ phát sinh"
+    },
+    "/employees/{employeeId}": {
+      "schema": "Employee",
+      "description": "Danh mục nhân viên"
+    },
+    "/partners/{partnerId}": {
+      "schema": "Partner",
+      "description": "Danh mục khách hàng, nhà cung cấp"
+    },
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Danh mục vật tư, hàng hóa"
+    },
+    "/departments/{departmentId}": {
+      "schema": "Department",
+      "description": "Danh mục phòng ban, trung tâm chi phí"
+    },
+    "/warehouses/{warehouseId}": {
+      "schema": "Warehouse",
+      "description": "Danh mục kho bãi"
+    },
+    "/fixed_assets/{assetId}": {
+      "schema": "FixedAsset",
+      "description": "Danh mục tài sản cố định"
+    },
+    "/projects/{projectId}": {
+      "schema": "Project",
+      "description": "Danh mục dự án, công trình"
+    },
+    "/periods/{periodId}": {
+      "schema": "AccountingPeriod",
+      "description": "Quản lý kỳ kế toán và khóa sổ"
+    },
+    "/audit_logs/{logId}": {
+      "schema": "AuditLog",
+      "description": "Nhật ký hoạt động hệ thống"
+    },
+    "/settings/company": {
+      "schema": "Company",
+      "description": "Cấu hình đơn vị"
+    },
+    "/login_logs/{logId}": {
+      "schema": "LoginLog",
+      "description": "Nhật ký đăng nhập hệ thống"
+    },
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Thông tin người dùng và cấu hình cá nhân"
+    }
+  }
+}

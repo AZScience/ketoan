@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Times New Roman", Times, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+body {
+  @apply font-serif antialiased text-slate-900 text-[13px];
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 1cm;
+  }
+
+  body {
+    background: white !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Hide everything except the report content */
+  header, 
+  nav, 
+  aside,
+  .no-print,
+  button,
+  .bg-blue-50,
+  .fixed:not(.print-visible),
+  .z-30,
+  .z-40,
+  .z-50:not(.print-visible) {
+    display: none !important;
+  }
+
+  /* Reset main content layout for print */
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* Ensure the print-visible container is correctly positioned */
+  .print-visible {
+    position: static !important;
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+    overflow: visible !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  .max-w-6xl {
+    max-width: none !important;
+  }
+
+  /* Ensure the report container is visible and styled for print */
+  .print-report {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: white !important;
+  }
+
+  .print-report table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+  }
+
+  .print-report th, 
+  .print-report td {
+    border: 1px solid #000 !important;
+    padding: 8px !important;
+    color: black !important;
+  }
+
+  .print-report .bg-[#1877F2] {
+    background-color: #f3f4f6 !important; /* Light gray for headers in print */
+    color: black !important;
+  }
+
+  .print-report .text-white {
+    color: black !important;
+  }
+
+  .print-report .border-white\/20 {
+    border-color: #000 !important;
+  }
+}
